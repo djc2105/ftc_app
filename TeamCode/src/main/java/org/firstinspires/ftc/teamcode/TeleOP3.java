@@ -50,7 +50,7 @@ public class TeleOP3 extends OpMode{
         //Make sure the values dont go above 1 or below -1 to stop out of bounds errors
         //right = Range.clip (right, 1, -1);
         //left = Range.clip (left, 1, -1);
-        throttle = Range.clip(throttle, 1, -1 );
+        throttle = normalise(throttle);
 
         //Scale the values given by the controller
         //right = (float)scaleinput(right);
@@ -75,7 +75,14 @@ public class TeleOP3 extends OpMode{
     }
 
 
-
+    public float normalise(float in){
+        if(in > 1){
+            in = 1;
+        } else if (in < -1) {
+            in = -1;
+        }
+        return(in);
+    }
 
 
 
