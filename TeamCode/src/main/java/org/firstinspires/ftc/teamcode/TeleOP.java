@@ -3,26 +3,30 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
+
 //FULL TELEOP
 @TeleOp(name = "TeleOP", group = "DANNY")
-public class TeleOP extends OpMode{
+public class TeleOP extends OpMode {
 
-
-
-    DcMotor motorleftback;
-    DcMotor motorrightback;
-    DcMotor motorleftfront;
-    DcMotor motorrightfront;
+    DcMotor leftback;
+    DcMotor rightback;
+    DcMotor leftfront;
+    DcMotor rightfront;
+    DcMotor lift;
+    DcMotor flyleft;
+    DcMotor flyright;
 
     //What happens when the program starts
     public void init() {
 
         //Creates names for the motors plugged into cetain ports
-        motorleftback = hardwareMap.dcMotor.get("motor_3");
-        motorrightback = hardwareMap.dcMotor.get("motor_4");
-        motorleftfront = hardwareMap.dcMotor.get("motor_1");
-        motorrightfront = hardwareMap.dcMotor.get("motor_2");
+        leftback = hardwareMap.dcMotor.get("leftback");
+        rightback = hardwareMap.dcMotor.get("rightback");
+        leftfront = hardwareMap.dcMotor.get("leftfront");
+        rightfront = hardwareMap.dcMotor.get("rightfront");
+        lift = hardwareMap.dcMotor.get("lift");
+        flyleft = hardwareMap.dcMotor.get("flyleft");
+        flyright = hardwareMap.dcMotor.get("flyright");
     }
 
 
@@ -35,31 +39,51 @@ public class TeleOP extends OpMode{
     public void loop() {
 
         //Get joystick values
-        float throttle = -gamepad1.left_stick_y;
+        float throttle = gamepad1.left_stick_y;
         float direction = gamepad1.left_stick_x;
 
-        //get trigger values for left and right
-        //float throttleHright = gamepad1.right_trigger;
-        //float throttleHleft = gamepad1.left_trigger;
+        //gets gamepad vales for the lift
+        boolean lifton = gamepad1.dpad_up;
 
+        //Gtes gampad vales for the fluwheel
+        float flyon = gamepad1.left_trigger;
 
         //Adds joystick values together
         float right = throttle - direction;
         float left = throttle + direction;
 
-        //Make sure the values dont go above 1 or below -1 to stop out of bounds errors
+        /*Make sure the values dont go above 1 or below -1 to stop out of bounds errors
         right = Range.clip (right, 1, -1);
         left = Range.clip (left, 1, -1);
+        */
 
         //Scale the values given by the controller
         right = (float)scaleinput(right);
         left = (float)scaleinput(left);
 
         //Set motors to given value
-        motorrightback.setPower(right);
-        motorrightfront.setPower(right);
-        motorleftback.setPower(left);
-        motorleftfront.setPower(left);
+        rightback.setPower(right);
+        rightfront.setPower(right);
+        leftback.setPower(left);
+        leftfront.setPower(left);
+
+        //turn on ball lift if button is pressed
+        if (lifton == true) {
+            lift.setPower(-1.00);
+        }
+        else{
+            lift.setPower(0.00);
+        }
+
+        //turn on flywheel if left trigger is pressed
+        if (flyon > 0.00){
+            flyleft.setPower(1.00);
+            flyright.setPower(-1.00);
+        }
+        else{
+            flyleft.setPower(0.00);
+            flyright.setPower(0.00);
+        }
     }
 
 
