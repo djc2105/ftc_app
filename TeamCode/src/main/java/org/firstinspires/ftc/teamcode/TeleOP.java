@@ -15,6 +15,7 @@ public class TeleOP extends OpMode {
     DcMotor lift;
     DcMotor flyleft;
     DcMotor flyright;
+    RobotDrive rd;
 
     //What happens when the program starts
     public void init() {
@@ -27,6 +28,7 @@ public class TeleOP extends OpMode {
         lift = hardwareMap.dcMotor.get("lift");
         flyleft = hardwareMap.dcMotor.get("flyleft");
         flyright = hardwareMap.dcMotor.get("flyright");
+        rd = new RobotDrive(leftfront, leftback, rightfront, rightback);
     }
 
 
@@ -48,24 +50,12 @@ public class TeleOP extends OpMode {
         //Gtes gampad vales for the fluwheel
         float flyon = gamepad1.left_trigger;
 
-        //Adds joystick values together
-        float right = throttle - direction;
-        float left = throttle + direction;
-
-        /*Make sure the values dont go above 1 or below -1 to stop out of bounds errors
-        right = Range.clip (right, 1, -1);
-        left = Range.clip (left, 1, -1);
-        */
-
-        //Scale the values given by the controller
-        right = (float)scaleinput(right);
-        left = (float)scaleinput(left);
-
         //Set motors to given value
-        rightback.setPower(right);
-        rightfront.setPower(right);
-        leftback.setPower(left);
-        leftfront.setPower(left);
+//        rightback.setPower(right);
+//        rightfront.setPower(right);
+//        leftback.setPower(left);
+//        leftfront.setPower(left);
+        rd.mecanumDrive_Cartesian(0.0, throttle, direction, 0);
 
         //turn on ball lift if button is pressed
         if (lifton == true) {
