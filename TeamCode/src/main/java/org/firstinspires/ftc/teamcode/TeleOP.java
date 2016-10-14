@@ -48,14 +48,19 @@ public class TeleOP extends OpMode {
         boolean lifton = gamepad1.dpad_up;
 
         //Gtes gampad vales for the fluwheel
-        float flyon = gamepad1.left_trigger;
+        boolean flyon = gamepad1.left_bumper;
+
+        //get mecanum values
+        float mecleft = gamepad1.left_trigger;
+        float mecright = gamepad1.right_trigger;
+        float mec = mecright - mecleft;
 
         //Set motors to given value
 //        rightback.setPower(right);
 //        rightfront.setPower(right);
 //        leftback.setPower(left);
 //        leftfront.setPower(left);
-        rd.mecanumDrive_Cartesian(0.0, throttle, direction, 0);
+        rd.mecanumDrive_Cartesian(mec, throttle, direction, 0);
 
         //turn on ball lift if button is pressed
         if (lifton == true) {
@@ -66,7 +71,7 @@ public class TeleOP extends OpMode {
         }
 
         //turn on flywheel if left trigger is pressed
-        if (flyon > 0.00){
+        if (flyon){
             flyleft.setPower(1.00);
             flyright.setPower(-1.00);
         }
