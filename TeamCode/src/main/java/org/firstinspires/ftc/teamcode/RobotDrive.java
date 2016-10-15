@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-/**
- * Created by andrew on Oct 07, 2016 as part of ftc_app in org.firstinspires.ftc.teamcode.
- */
 public class RobotDrive {
 
     /**

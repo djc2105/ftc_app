@@ -55,15 +55,11 @@ public class TeleOP extends OpMode {
         float mecright = gamepad1.right_trigger;
         float mec = mecright - mecleft;
 
-        //Set motors to given value
-//        rightback.setPower(right);
-//        rightfront.setPower(right);
-//        leftback.setPower(left);
-//        leftfront.setPower(left);
+        //Use mecanum program and pass it values
         rd.mecanumDrive_Cartesian(mec, throttle, direction, 0);
 
         //turn on ball lift if button is pressed
-        if (lifton == true) {
+        if (lifton) {
             lift.setPower(-1.00);
         }
         else{
