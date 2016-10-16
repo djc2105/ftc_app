@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 //FULL TELEOP
 @TeleOp(name = "TeleOP", group = "DANNY")
@@ -16,6 +17,8 @@ public class TeleOP extends OpMode {
     DcMotor flyleft;
     DcMotor flyright;
     RobotDrive rd;
+    Servo leftpush;
+    Servo rightpush;
 
     //What happens when the program starts
     public void init() {
@@ -29,6 +32,8 @@ public class TeleOP extends OpMode {
         flyleft = hardwareMap.dcMotor.get("flyleft");
         flyright = hardwareMap.dcMotor.get("flyright");
         rd = new RobotDrive(leftfront, leftback, rightfront, rightback);
+        leftpush = hardwareMap.servo.get("leftpush");
+        rightpush = hardwareMap.servo.get("rightpush");
     }
 
 
@@ -44,16 +49,20 @@ public class TeleOP extends OpMode {
         float throttle = gamepad1.left_stick_y;
         float direction = gamepad1.left_stick_x;
 
-        //gets gamepad vales for the lift
+        //Gets gamepad vales for the lift
         boolean lifton = gamepad1.dpad_up;
 
-        //Gtes gampad vales for the fluwheel
+        //Gets gamepad vales for the fluwheel
         boolean flyon = gamepad1.left_bumper;
 
         //get mecanum values
         float mecleft = gamepad1.left_trigger;
         float mecright = gamepad1.right_trigger;
         float mec = mecright - mecleft;
+
+        //Gets gamepad vales for servos
+        boolean leftpush = gamepad1.dpad_left;
+        boolean rightpush = gamepad1.dpad_right;
 
         //Use mecanum program and pass it values
         rd.mecanumDrive_Cartesian(mec, throttle, direction, 0);
@@ -75,6 +84,12 @@ public class TeleOP extends OpMode {
             flyleft.setPower(0.00);
             flyright.setPower(0.00);
         }
+
+        // Turns servos on
+        if(leftpush){
+
+        }
+
     }
 
 
