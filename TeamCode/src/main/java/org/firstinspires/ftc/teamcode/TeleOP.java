@@ -13,12 +13,12 @@ public class TeleOP extends OpMode {
     DcMotor rightback;
     DcMotor leftfront;
     DcMotor rightfront;
-    DcMotor lift;
-    DcMotor flyleft;
-    DcMotor flyright;
+  //  DcMotor lift;
+ //   DcMotor flyleft;
+   // DcMotor flyright;
     RobotDrive rd;
-    Servo leftpush;
-    Servo rightpush;
+   // Servo leftpush;
+   // Servo rightpush;
 
     //What happens when the program starts
     public void init() {
@@ -28,12 +28,12 @@ public class TeleOP extends OpMode {
         rightback = hardwareMap.dcMotor.get("rightback");
         leftfront = hardwareMap.dcMotor.get("leftfront");
         rightfront = hardwareMap.dcMotor.get("rightfront");
-        lift = hardwareMap.dcMotor.get("lift");
-        flyleft = hardwareMap.dcMotor.get("flyleft");
-        flyright = hardwareMap.dcMotor.get("flyright");
-        rd = new RobotDrive(leftfront, leftback, rightfront, rightback);
-        leftpush = hardwareMap.servo.get("leftpush");
-        rightpush = hardwareMap.servo.get("rightpush");
+      //  lift = hardwareMap.dcMotor.get("lift");
+     //   flyleft = hardwareMap.dcMotor.get("flyleft");
+     //   flyright = hardwareMap.dcMotor.get("flyright");
+       rd = new RobotDrive(leftfront, leftback, rightfront, rightback);
+      //  leftpush = hardwareMap.servo.get("leftpush");
+      //  rightpush = hardwareMap.servo.get("rightpush");
     }
 
 
@@ -46,8 +46,8 @@ public class TeleOP extends OpMode {
     public void loop() {
 
         //Get joystick values
-        float throttle = gamepad1.left_stick_y;
-        float direction = gamepad1.left_stick_x;
+        float throttle = -gamepad1.left_stick_x;
+        float direction = gamepad1.left_stick_y;
 
         //Gets gamepad vales for the lift
         boolean lifton = gamepad1.dpad_up;
@@ -68,27 +68,27 @@ public class TeleOP extends OpMode {
         rd.mecanumDrive_Cartesian(mec, throttle, direction, 0);
 
         //turn on ball lift if button is pressed
-        if (lifton) {
-            lift.setPower(-1.00);
-        }
-        else{
-            lift.setPower(0.00);
-        }
-
-        //turn on flywheel if left trigger is pressed
-        if (flyon){
-            flyleft.setPower(1.00);
-            flyright.setPower(-1.00);
-        }
-        else{
-            flyleft.setPower(0.00);
-            flyright.setPower(0.00);
-        }
-
-        // Turns servos on
-        if(leftpush){
-
-        }
+//        if (lifton) {
+//            lift.setPower(-1.00);
+//        }
+//        else{
+//            lift.setPower(0.00);
+//        }
+//
+//        //turn on flywheel if left trigger is pressed
+//        if (flyon){
+//            flyleft.setPower(1.00);
+//            flyright.setPower(-1.00);
+//        }
+//        else{
+//            flyleft.setPower(0.00);
+//            flyright.setPower(0.00);
+//        }
+//
+//        // Turns servos on
+//        if(leftpush){
+//
+//        }
 
     }
 

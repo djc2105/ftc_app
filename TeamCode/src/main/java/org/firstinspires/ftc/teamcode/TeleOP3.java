@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 //TEST TELEOP w/out -
-@TeleOp(name = "TeleOP3", group = "DANNY")
+
 public class TeleOP3 extends OpMode {
 
 
