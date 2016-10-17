@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 //FULL TELEOP
 @TeleOp(name = "TeleOP", group = "DANNY")
@@ -13,12 +12,43 @@ public class TeleOP extends OpMode {
     DcMotor rightback;
     DcMotor leftfront;
     DcMotor rightfront;
-  //  DcMotor lift;
- //   DcMotor flyleft;
-   // DcMotor flyright;
+    //  DcMotor lift;
+    //   DcMotor flyleft;
+    // DcMotor flyright;
     RobotDrive rd;
-   // Servo leftpush;
-   // Servo rightpush;
+    // Servo leftpush;
+    // Servo rightpush;
+
+    //For Scaling
+    public static double scaleinput(double dVal) {
+
+        //Sets values that it can scale to
+        double[] scaleArray = {0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
+                0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00};
+
+        //Multiplies the inputs by 16 to find what value it will take from the array
+        int index = (int) (dVal * 16.0);
+
+        //Makes sure the number isnt below 0
+        if (index < 0) {
+            index = -index;
+        }
+
+        //Makes sure the number isnt above 16
+        if (index > 16) {
+            index = 16;
+        }
+
+        //Flips values if joystick is reversed and sets dScale to the value from the array
+        double dScale = 0.00;
+        if (dVal < 0) {
+            dScale = -scaleArray[index];
+        } else {
+            dScale = scaleArray[index];
+        }
+        return dScale;
+
+    }
 
     //What happens when the program starts
     public void init() {
@@ -28,18 +58,13 @@ public class TeleOP extends OpMode {
         rightback = hardwareMap.dcMotor.get("rightback");
         leftfront = hardwareMap.dcMotor.get("leftfront");
         rightfront = hardwareMap.dcMotor.get("rightfront");
-      //  lift = hardwareMap.dcMotor.get("lift");
-     //   flyleft = hardwareMap.dcMotor.get("flyleft");
-     //   flyright = hardwareMap.dcMotor.get("flyright");
-       rd = new RobotDrive(leftfront, leftback, rightback, rightfront);
-      //  leftpush = hardwareMap.servo.get("leftpush");
-      //  rightpush = hardwareMap.servo.get("rightpush");
+        //  lift = hardwareMap.dcMotor.get("lift");
+        //   flyleft = hardwareMap.dcMotor.get("flyleft");
+        //   flyright = hardwareMap.dcMotor.get("flyright");
+        rd = new RobotDrive(leftfront, leftback, rightback, rightfront);
+        //  leftpush = hardwareMap.servo.get("leftpush");
+        //  rightpush = hardwareMap.servo.get("rightpush");
     }
-
-
-
-
-
 
     @Override
     //What happens as the program is running
@@ -92,50 +117,9 @@ public class TeleOP extends OpMode {
 
     }
 
-
-
-
-
-
     @Override
     //What happens when you stop
     public void stop() {
-
-    }
-
-
-
-
-
-
-    //For Scaling
-    public static double scaleinput(double dVal){
-
-        //Sets values that it can scale to
-        double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
-                0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
-
-        //Multiplies the inputs by 16 to find what value it will take from the array
-        int index = (int) (dVal * 16.0);
-
-        //Makes sure the number isnt below 0
-        if (index < 0) {
-            index = -index;
-        }
-
-        //Makes sure the number isnt above 16
-        if(index > 16){
-            index = 16;
-        }
-
-        //Flips values if joystick is reversed and sets dScale to the value from the array
-        double dScale = 0.00;
-        if (dVal < 0) {
-            dScale = -scaleArray[index];
-        } else {
-            dScale = scaleArray[index];
-        }
-        return dScale;
 
     }
 
