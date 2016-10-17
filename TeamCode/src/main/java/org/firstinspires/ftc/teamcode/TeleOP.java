@@ -31,7 +31,7 @@ public class TeleOP extends OpMode {
       //  lift = hardwareMap.dcMotor.get("lift");
      //   flyleft = hardwareMap.dcMotor.get("flyleft");
      //   flyright = hardwareMap.dcMotor.get("flyright");
-       rd = new RobotDrive(leftback, leftfront, rightfront, rightback);
+       rd = new RobotDrive(leftfront, leftback, rightback, rightfront);
       //  leftpush = hardwareMap.servo.get("leftpush");
       //  rightpush = hardwareMap.servo.get("rightpush");
     }
