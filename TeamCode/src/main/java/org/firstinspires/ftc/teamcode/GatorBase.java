@@ -63,4 +63,82 @@ public class GatorBase extends OpMode {
         super.stop();
     }
 
+    public void reset_encoders() {
+        if (frontLeft != null) {
+            frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+        if (backLeft != null) {
+            backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+        if (frontRight != null) {
+            frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+        if (backRight != null) {
+            backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+    }
+
+    public void run_with_encoders() {
+        if (frontLeft != null) {
+            frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+        if (backLeft != null) {
+            backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+        if (frontRight != null) {
+            frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+        if (backRight != null) {
+            backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+
+    public int get_fl_enc() {
+        int out = 0;
+        if (frontLeft != null) {
+            out = frontLeft.getCurrentPosition();
+        }
+        return out;
+    }
+
+    public int get_bl_enc() {
+        int out = 0;
+        if (backLeft != null) {
+            out = backLeft.getCurrentPosition();
+        }
+        return out;
+    }
+
+    public int get_fr_enc() {
+        int out = 0;
+        if (frontRight != null) {
+            out = frontRight.getCurrentPosition();
+        }
+        return out;
+    }
+
+    public int get_br_enc() {
+        int out = 0;
+        if (backRight != null) {
+            out = backRight.getCurrentPosition();
+        }
+        return out;
+    }
+
+    public boolean have_encoders_reached(double fl, double bl, double fr, double br) {
+        boolean out = false;
+
+        if (frontLeft != null && backLeft != null && frontRight != null && backRight != null) {
+            if (Math.abs(get_fl_enc()) >= fl && Math.abs(get_bl_enc()) >= bl && Math.abs(get_fr_enc()) >= fr && Math.abs(get_br_enc()) >= br) {
+                out = true;
+            }
+        }
+
+        return out;
+    }
+
+    public boolean have_encoders_reset() {
+        return get_bl_enc() == 0 && get_br_enc() == 0 && get_fl_enc() == 0 && get_fr_enc() == 0;
+    }
+
 }
