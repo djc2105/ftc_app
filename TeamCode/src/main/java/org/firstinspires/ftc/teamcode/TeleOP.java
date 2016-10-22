@@ -6,18 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 //FULL TELEOP
 @TeleOp(name = "TeleOP", group = "DANNY")
-public class TeleOP extends OpMode {
+public class TeleOP extends GatorBase {
 
-    DcMotor leftback;
-    DcMotor rightback;
-    DcMotor leftfront;
-    DcMotor rightfront;
-    //  DcMotor lift;
-    //   DcMotor flyleft;
-    // DcMotor flyright;
-    RobotDrive rd;
-    // Servo leftpush;
-    // Servo rightpush;
 
     //For Scaling
     public static double scaleinput(double dVal) {
@@ -53,17 +43,6 @@ public class TeleOP extends OpMode {
     //What happens when the program starts
     public void init() {
 
-        //Creates names for the motors plugged into cetain ports
-        leftback = hardwareMap.dcMotor.get("leftback");
-        rightback = hardwareMap.dcMotor.get("rightback");
-        leftfront = hardwareMap.dcMotor.get("leftfront");
-        rightfront = hardwareMap.dcMotor.get("rightfront");
-        //  lift = hardwareMap.dcMotor.get("lift");
-        //   flyleft = hardwareMap.dcMotor.get("flyleft");
-        //   flyright = hardwareMap.dcMotor.get("flyright");
-        rd = new RobotDrive(leftfront, leftback, rightback, rightfront);
-        //  leftpush = hardwareMap.servo.get("leftpush");
-        //  rightpush = hardwareMap.servo.get("rightpush");
     }
 
     @Override
