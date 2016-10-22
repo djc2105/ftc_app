@@ -37,8 +37,8 @@ public class GatorBase extends OpMode {
         rd = new RobotDrive(frontLeft, backLeft, backRight, frontRight);
 
         lift = hardwareMap.dcMotor.get("lift");
-        flyleft = hardwareMap.dcMotor.get("flyleft");
-        flyright = hardwareMap.dcMotor.get("flyright");
+        flyleft = hardwareMap.dcMotor.get("flyLeft");
+        flyright = hardwareMap.dcMotor.get("flyRight");
 
         leftpush = hardwareMap.servo.get("leftpush");
         rightpush = hardwareMap.servo.get("rightpush");
@@ -125,7 +125,7 @@ public class GatorBase extends OpMode {
         return out;
     }
 
-    public boolean have_encoders_reached(double fl, double bl, double fr, double br) {
+    public boolean have_encoders_reached(double fl, double bl, double fr, double br) { // 1 rot = 4pi inches = ? enc
         boolean out = false;
 
         if (frontLeft != null && backLeft != null && frontRight != null && backRight != null) {

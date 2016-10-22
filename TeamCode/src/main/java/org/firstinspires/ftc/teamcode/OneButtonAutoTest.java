@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class OneButtonAutoTest extends GatorBase {
 
     private int auto_case = 0;
-    private static int K_WHITE_LIGHT = 0;
+    private static double K_WHITE_LIGHT = 0.45;
     private int red_pos = 0; // left side means we're on red
 
     @Override
