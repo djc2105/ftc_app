@@ -42,7 +42,7 @@ public class TeleOP extends GatorBase {
 
     //What happens when the program starts
     public void init() {
-
+        super.init();
     }
 
     @Override
