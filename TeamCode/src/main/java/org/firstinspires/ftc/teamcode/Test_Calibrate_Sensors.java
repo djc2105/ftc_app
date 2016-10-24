@@ -15,19 +15,19 @@ public class Test_Calibrate_Sensors extends GatorBase {
     public void init() {
         super.init();
         light.enableLed(true);
-        left.enableLed(true);
+        left.enableLed(false);
     }
 
     @Override
     public void loop() {
-//        Lrgb[0] = left.red();
-//        Lrgb[1] = left.green();
-//        Lrgb[2] = left.blue();
-//        Rrgb[0] = right.red();
-//        Rrgb[1] = right.green();
-//        Rrgb[2] = right.blue();
         telemetry.addData("0 Light Val: ", light.getLightDetected());
         telemetry.addData("1 Left Red: ", left.red());
-//        telemetry.addData("2 Right RGB: ", Rrgb);
+        telemetry.addData("2 Left Green: ", left.green());
+        telemetry.addData("3 Left Blue: ", left.blue());
+        telemetry.addData("4 Right Red: ", right.red());
+        telemetry.addData("5 Right Green: ", right.green());
+        telemetry.addData("6 Right Blue: ", right.blue());
+
+        telemetry.update();
     }
 }
