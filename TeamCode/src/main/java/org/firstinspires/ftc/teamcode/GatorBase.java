@@ -46,6 +46,9 @@ public class GatorBase extends OpMode {
         light = hardwareMap.lightSensor.get("light");
         left = hardwareMap.colorSensor.get("left");
         right = hardwareMap.colorSensor.get("right");
+
+        flyleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        flyright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     @Override
