@@ -63,6 +63,11 @@ public class GatorBase extends OpMode {
 
     @Override
     public void stop() {
+        rd.mecanumDrive_Cartesian(0, 0, 0, 0);
+        lift.setPower(0);
+        flyleft.setPower(0);
+        flyright.setPower(0);
+
         super.stop();
     }
 
