@@ -13,6 +13,10 @@ public class OneButtonAutoTest extends GatorBase {
 
     private int auto_case = 0;
     private static double K_WHITE_LIGHT = 0.45;
+    private static double K_LEFT_SERVO_STOW = 0;
+    private static double K_LEFT_SERVO_BOOP = 0.5;
+    private static double K_RIGHT_SERVO_STOW = 1.0;
+    private static double K_RIGHT_SERVO_BOOP = 0.5;
     private int red_pos = 0; // left side means we're on red
 
     @Override
@@ -26,6 +30,8 @@ public class OneButtonAutoTest extends GatorBase {
     public void start() {
         super.start();
         light.enableLed(true);
+        leftpush.setPosition(K_LEFT_SERVO_STOW);
+        rightpush.setPosition(K_RIGHT_SERVO_STOW);
     }
 
     @Override

@@ -16,6 +16,7 @@ public class Test_Calibrate_Sensors extends GatorBase {
         super.init();
         light.enableLed(true);
         left.enableLed(false);
+        right.enableLed(false);
     }
 
     @Override

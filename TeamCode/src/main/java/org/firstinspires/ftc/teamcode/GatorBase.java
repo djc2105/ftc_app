@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorController.*;
@@ -23,6 +24,7 @@ public class GatorBase extends OpMode {
     public DcMotor flyright;
     public Servo leftpush;
     public Servo rightpush;
+    private I2cAddr leftAddr = I2cAddr.create8bit(0x3c), rightAddr = I2cAddr.create8bit(0x3e);
 
     public GatorBase() {
 
@@ -46,6 +48,8 @@ public class GatorBase extends OpMode {
         light = hardwareMap.lightSensor.get("light");
         left = hardwareMap.colorSensor.get("left");
         right = hardwareMap.colorSensor.get("right");
+        left.setI2cAddress(leftAddr);
+        right.setI2cAddress(rightAddr);
 
         flyleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         flyright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
