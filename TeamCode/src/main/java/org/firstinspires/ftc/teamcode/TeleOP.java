@@ -72,27 +72,27 @@ public class TeleOP extends GatorBase {
         rd.mecanumDrive_Cartesian(mec, throttle, direction, 0);
 
         //turn on ball lift if button is pressed
-//        if (lifton) {
-//            lift.setPower(-1.00);
-//        }
-//        else{
-//            lift.setPower(0.00);
-//        }
-//
-//        //turn on flywheel if left trigger is pressed
-//        if (flyon){
-//            flyleft.setPower(1.00);
-//            flyright.setPower(-1.00);
-//        }
-//        else{
-//            flyleft.setPower(0.00);
-//            flyright.setPower(0.00);
-//        }
-//
-//        // Turns servos on
-//        if(leftpush){
-//
-//        }
+        if (lifton) {
+            lift.setPower(-1.00);
+        }
+        else{
+            lift.setPower(0.00);
+        }
+
+        //turn on flywheel if left trigger is pressed
+        if (flyon){
+            flyleft.setPower(1.00);
+            flyright.setPower(-1.00);
+        }
+        else{
+            flyleft.setPower(0.00);
+            flyright.setPower(0.00);
+        }
+
+        // Turns servos on
+        if(leftpush){
+
+        }
 
     }
 
