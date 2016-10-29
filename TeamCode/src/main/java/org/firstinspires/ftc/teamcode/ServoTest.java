@@ -21,7 +21,7 @@ public class ServoTest extends GatorBase {
 
     @Override
     public void loop() {
-        leftpush.setPosition(gamepad1.right_stick_x);
+        rightpush.setPosition(gamepad1.right_stick_x);
         telemetry.addData("0 Servo Pos: ", gamepad1.right_stick_x);
         super.loop();
     }

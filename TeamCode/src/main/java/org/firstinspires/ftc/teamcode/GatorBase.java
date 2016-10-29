@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -24,7 +25,9 @@ public class GatorBase extends OpMode {
     public DcMotor flyright;
     public Servo leftpush;
     public Servo rightpush;
+    public AHRS navx;
     private I2cAddr leftAddr = I2cAddr.create8bit(0x3c), rightAddr = I2cAddr.create8bit(0x3e);
+    private final int NAVX_DIM_I2C_PORT = 3;
 
     public GatorBase() {
 
@@ -53,6 +56,12 @@ public class GatorBase extends OpMode {
 
         flyleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         flyright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        navx = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get("dim"),
+                NAVX_DIM_I2C_PORT,
+                AHRS.DeviceDataType.kProcessedData);
+
+        navx.zeroYaw();
     }
 
     @Override
@@ -72,7 +81,17 @@ public class GatorBase extends OpMode {
         flyleft.setPower(0);
         flyright.setPower(0);
 
+        navx.close();
+
         super.stop();
+    }
+
+    public void reset_yaw() {
+        navx.zeroYaw();
+    }
+
+    public boolean is_navx_calibrating() {
+        return navx.isCalibrating();
     }
 
     public void reset_encoders() {
