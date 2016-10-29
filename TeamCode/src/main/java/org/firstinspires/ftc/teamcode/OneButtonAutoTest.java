@@ -12,17 +12,18 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class OneButtonAutoTest extends GatorBase {
 
     private int auto_case = 0;
-    private static double K_WHITE_LIGHT = 0.45;
-    private static double K_LEFT_SERVO_STOW = 0;
-    private static double K_LEFT_SERVO_BOOP = 0.5;
-    private static double K_RIGHT_SERVO_STOW = 1.0;
-    private static double K_RIGHT_SERVO_BOOP = 0.5;
+    private static final double K_WHITE_LIGHT = 0.45;
+    private static final double K_LEFT_SERVO_STOW = 0;
+    private static final double K_LEFT_SERVO_BOOP = 0.65;
+    private static final double K_RIGHT_SERVO_STOW = 1.0;
+    private static final double K_RIGHT_SERVO_BOOP = 0.5;
     private int red_pos = 0; // left side means we're on red
 
     @Override
     public void init() {
 
         super.init();
+        auto_case = 0;
 
     }
 
@@ -32,6 +33,7 @@ public class OneButtonAutoTest extends GatorBase {
         light.enableLed(true);
         leftpush.setPosition(K_LEFT_SERVO_STOW);
         rightpush.setPosition(K_RIGHT_SERVO_STOW);
+        reset_yaw();
     }
 
     @Override
@@ -44,11 +46,13 @@ public class OneButtonAutoTest extends GatorBase {
             case 1:
                 if(have_encoders_reset()) {
                     run_with_encoders();
+                    reset_yaw();
                     auto_case++;
                 }
                 break;
             case 2:
-                rd.mecanumDrive_Cartesian(0, 0.5, 0, 0);
+                double error = navx.getYaw() * 0.1;
+                rd.arcadeDrive(0.25, error);
                 auto_case++;
                 break;
             case 3:
@@ -82,12 +86,14 @@ public class OneButtonAutoTest extends GatorBase {
                 auto_case++;
                 break;
             case 9: // boop
+                leftpush.setPosition(K_LEFT_SERVO_BOOP);
                 auto_case++;
                 break;
             default:
                 break;
         }
-
+        telemetry.addData("0 Auto Phase: ", auto_case);
+        telemetry.addData("1 Red Pos: ", red_pos);
     }
 
     @Override

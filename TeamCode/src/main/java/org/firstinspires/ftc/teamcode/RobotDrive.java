@@ -78,7 +78,7 @@ public class RobotDrive {
         // Negate y for the joystick.
         yIn = -yIn;
         // Compenstate for gyro angle.
-        double rotated[] = rotateVector(xIn, yIn, gyroAngle);
+        double rotated[] = rotateVector(xIn, yIn, -1*gyroAngle);
         xIn = rotated[0];
         yIn = rotated[1];
 
@@ -94,6 +94,22 @@ public class RobotDrive {
         m_rearLeftMotor.setPower(wheelSpeeds[MotorType.kRearLeft_val] * m_maxOutput);
         m_rearRightMotor.setPower(wheelSpeeds[MotorType.kRearRight_val] * m_maxOutput);
 
+    }
+
+    public void arcadeDrive(double speed, double rot) {
+        speed = -speed;
+        rot = -rot;
+        double wheelSpeeds[] = new double[kMaxNumberOfMotors];
+        wheelSpeeds[MotorType.kFrontLeft_val] = speed + rot;
+        wheelSpeeds[MotorType.kFrontRight_val] = speed - rot;
+        wheelSpeeds[MotorType.kRearLeft_val] = speed + rot;
+        wheelSpeeds[MotorType.kRearRight_val] = speed - rot;
+
+        normalize(wheelSpeeds);
+        m_frontLeftMotor.setPower(wheelSpeeds[MotorType.kFrontLeft_val] * m_maxOutput);
+        m_frontRightMotor.setPower(wheelSpeeds[MotorType.kFrontRight_val] * m_maxOutput);
+        m_rearLeftMotor.setPower(wheelSpeeds[MotorType.kRearLeft_val] * m_maxOutput);
+        m_rearRightMotor.setPower(wheelSpeeds[MotorType.kRearRight_val] * m_maxOutput);
     }
 
     /**

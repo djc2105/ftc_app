@@ -46,15 +46,22 @@ public class TeleOP extends GatorBase {
     }
 
     @Override
+    public void start() {
+        super.start();
+        reset_yaw();
+    }
+
+    @Override
     //What happens as the program is running
     public void loop() {
 
         //Get joystick values
-        float throttle = -gamepad1.left_stick_x;
-        float direction = gamepad1.left_stick_y;
+        float throttle = -gamepad1.left_stick_y;
+        float direction = -gamepad1.left_stick_x;
 
         //Gets gamepad vales for the lift
         boolean lifton = gamepad1.dpad_up;
+        boolean liftReverse = gamepad1.dpad_down;
 
         //Gets gamepad vales for the fluwheel
         boolean flyon = gamepad1.left_bumper;
@@ -73,6 +80,8 @@ public class TeleOP extends GatorBase {
 
         //turn on ball lift if button is pressed
         if (lifton) {
+            lift.setPower(1.00);
+        } else if (liftReverse) {
             lift.setPower(-1.00);
         }
         else{

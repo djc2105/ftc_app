@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -23,8 +24,7 @@ public class GatorBase extends OpMode {
     public DcMotor lift;
     public DcMotor flyleft;
     public DcMotor flyright;
-    public Servo leftpush;
-    public Servo rightpush;
+    public Servo leftpush, rightpush, launch;
     public AHRS navx;
     private I2cAddr leftAddr = I2cAddr.create8bit(0x3c), rightAddr = I2cAddr.create8bit(0x3e);
     private final int NAVX_DIM_I2C_PORT = 3;
@@ -39,7 +39,7 @@ public class GatorBase extends OpMode {
         backRight = hardwareMap.dcMotor.get("rightback");
         frontLeft = hardwareMap.dcMotor.get("leftfront");
         frontRight = hardwareMap.dcMotor.get("rightfront");
-        rd = new RobotDrive(frontLeft, backLeft, backRight, frontRight);
+        rd = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
 
         lift = hardwareMap.dcMotor.get("lift");
         flyleft = hardwareMap.dcMotor.get("flyLeft");
@@ -47,12 +47,18 @@ public class GatorBase extends OpMode {
 
         leftpush = hardwareMap.servo.get("leftpush");
         rightpush = hardwareMap.servo.get("rightpush");
+        launch = hardwareMap.servo.get("launch");
 
         light = hardwareMap.lightSensor.get("light");
         left = hardwareMap.colorSensor.get("left");
         right = hardwareMap.colorSensor.get("right");
         left.setI2cAddress(leftAddr);
         right.setI2cAddress(rightAddr);
+
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
 
         flyleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         flyright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
