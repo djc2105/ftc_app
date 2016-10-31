@@ -105,7 +105,9 @@ public class TeleOP extends GatorBase {
         }
 
         if(shoot){
-            launch.setPosition(.5);
+            launch.setPosition(K_LAUNCH_SERVO_ACTIVE);
+        } else {
+            launch.setPosition(K_LAUNCH_SERVO_STOW);
         }
     }
 

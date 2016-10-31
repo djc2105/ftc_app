@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * Created by andrew on Oct 22, 2016 as part of ftc_app in org.firstinspires.ftc.teamcode.
@@ -12,11 +13,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class OneButtonAutoTest extends GatorBase {
 
     private int auto_case = 0;
-    private static final double K_WHITE_LIGHT = 0.45;
-    private static final double K_LEFT_SERVO_STOW = 0;
-    private static final double K_LEFT_SERVO_BOOP = 0.65;
-    private static final double K_RIGHT_SERVO_STOW = 1.0;
-    private static final double K_RIGHT_SERVO_BOOP = 0.5;
     private int red_pos = 0; // left side means we're on red
 
     @Override
@@ -51,15 +47,24 @@ public class OneButtonAutoTest extends GatorBase {
                 }
                 break;
             case 2:
-                double error = navx.getYaw() * 0.1;
-                rd.arcadeDrive(0.1, -error);
-                auto_case++;
-                break;
-            case 3:
+                double error = navx.getYaw() * 0.07;
+                error = Range.clip(error, -0.1, 0.1);
+                double lefts = -0.15 + error;
+                double rights = -0.15 - error;
+                lefts = Range.clip(lefts, -0.15, 0.15);
+                rights = Range.clip(rights, -0.15, 0.15);
+                telemetry.addData("3 Error: ", error);
+                frontLeft.setPower(lefts);
+                backLeft.setPower(lefts);
+                frontRight.setPower(rights);
+                backRight.setPower(rights);
                 if (light.getLightDetected() > K_WHITE_LIGHT) {
-                    rd.arcadeDrive(0, 0);
                     auto_case++;
                 }
+                break;
+            case 3:
+                rd.mecanumDrive_Cartesian(0, 0, 0, 0);
+                auto_case++;
                 break;
             case 4: // Might need to move to sense colors?
                 auto_case++;

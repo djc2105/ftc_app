@@ -117,16 +117,11 @@ public class RobotDrive {
      * 1.0.
      */
     protected static void normalize(double wheelSpeeds[]) {
-        double maxMagnitude = Math.abs(wheelSpeeds[0]);
-        int i;
-        for (i = 1; i < kMaxNumberOfMotors; i++) {
-            double temp = Math.abs(wheelSpeeds[i]);
-            if (maxMagnitude < temp)
-                maxMagnitude = temp;
-        }
-        if (maxMagnitude > 1.0) {
-            for (i = 0; i < kMaxNumberOfMotors; i++) {
-                wheelSpeeds[i] = wheelSpeeds[i] / maxMagnitude;
+        for (int i = 0; i < wheelSpeeds.length; i++) {
+            if (wheelSpeeds[i] < -1) {
+                wheelSpeeds[1] = -1;
+            } else if (wheelSpeeds[i] > 1) {
+                wheelSpeeds[1] = 1;
             }
         }
     }

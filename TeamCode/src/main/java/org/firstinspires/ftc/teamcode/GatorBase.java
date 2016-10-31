@@ -28,6 +28,13 @@ public class GatorBase extends OpMode {
     public AHRS navx;
     private I2cAddr leftAddr = I2cAddr.create8bit(0x3c), rightAddr = I2cAddr.create8bit(0x3e);
     private final int NAVX_DIM_I2C_PORT = 3;
+    public static final double K_WHITE_LIGHT = 0.45;
+    public static final double K_LEFT_SERVO_STOW = 0;
+    public static final double K_LEFT_SERVO_BOOP = 0.65;
+    public static final double K_RIGHT_SERVO_STOW = 1.0;
+    public static final double K_RIGHT_SERVO_BOOP = 0.5;
+    public static final double K_LAUNCH_SERVO_STOW = 0;
+    public static final double K_LAUNCH_SERVO_ACTIVE = 0.8;
 
     public GatorBase() {
 
@@ -68,6 +75,11 @@ public class GatorBase extends OpMode {
                 AHRS.DeviceDataType.kProcessedData);
 
         navx.zeroYaw();
+
+        leftpush.setPosition(K_LEFT_SERVO_STOW);
+        rightpush.setPosition(K_RIGHT_SERVO_STOW);
+        launch.setPosition(K_LAUNCH_SERVO_STOW);
+
     }
 
     @Override

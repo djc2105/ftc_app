@@ -24,35 +24,35 @@ public class ServoTest extends GatorBase {
 
     @Override
     public void loop() {
-//        if (gamepad1.x) {
-//            testingMotor = 0;
-//        } else if (gamepad1.y) {
-//            testingMotor = 1;
-//        } else if (gamepad1.a) {
-//            testingMotor = 2;
-//        } else if (gamepad1.b) {
-//            testingMotor = 3;
-//        }
-//        leftpush.setPosition(gamepad1.right_stick_x);
-//        switch (testingMotor) {
-//            case 0:
-//                backLeft.setPower(gamepad1.left_stick_y);
-//                break;
-//            case 1:
-//                frontLeft.setPower(gamepad1.left_stick_y);
-//                break;
-//            case 2:
-//                backRight.setPower(gamepad1.left_stick_y);
-//                break;
-//            case 3:
-//                frontRight.setPower(gamepad1.left_stick_y);
-//                break;
-//            default:
-//                break;
-//        }
-//        telemetry.addData("0 Servo Pos: ", gamepad1.right_stick_x);
-//        telemetry.addData("1 Testing Motor: ", testingMotor);
-        rd.arcadeDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x);
+        if (gamepad1.x) {
+            testingMotor = 0;
+        } else if (gamepad1.y) {
+            testingMotor = 1;
+        } else if (gamepad1.a) {
+            testingMotor = 2;
+        } else if (gamepad1.b) {
+            testingMotor = 3;
+        }
+        leftpush.setPosition(gamepad1.right_stick_x);
+        switch (testingMotor) {
+            case 0:
+                backLeft.setPower(gamepad1.left_stick_y);
+                break;
+            case 1:
+                frontLeft.setPower(gamepad1.left_stick_y);
+                break;
+            case 2:
+                backRight.setPower(gamepad1.left_stick_y);
+                break;
+            case 3:
+                frontRight.setPower(gamepad1.left_stick_y);
+                break;
+            default:
+                break;
+        }
+        telemetry.addData("0 Servo Pos: ", gamepad1.right_stick_x);
+        telemetry.addData("1 Testing Motor: ", testingMotor);
+//        rd.arcadeDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x);
         telemetry.addData("2 navX Yaw: ", navx.getYaw());
         super.loop();
     }
