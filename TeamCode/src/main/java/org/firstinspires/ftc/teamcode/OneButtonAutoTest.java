@@ -52,12 +52,12 @@ public class OneButtonAutoTest extends GatorBase {
                 break;
             case 2:
                 double error = navx.getYaw() * 0.1;
-                rd.arcadeDrive(0.25, error);
+                rd.arcadeDrive(0.1, -error);
                 auto_case++;
                 break;
             case 3:
                 if (light.getLightDetected() > K_WHITE_LIGHT) {
-                    rd.mecanumDrive_Cartesian(0, 0, 0, 0);
+                    rd.arcadeDrive(0, 0);
                     auto_case++;
                 }
                 break;
