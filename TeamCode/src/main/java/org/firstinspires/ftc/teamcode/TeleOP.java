@@ -74,9 +74,10 @@ public class TeleOP extends GatorBase {
         //Gets gamepad vales for servos
         boolean leftpush = gamepad1.dpad_left;
         boolean rightpush = gamepad1.dpad_right;
+        boolean shoot = gamepad1.right_bumper;
 
         //Use mecanum program and pass it values
-        rd.mecanumDrive_Cartesian(mec, throttle, direction, 0);
+        rd.mecanumDrive_Cartesian(-mec, throttle, direction, 0);
 
         //turn on ball lift if button is pressed
         if (lifton) {
@@ -103,6 +104,9 @@ public class TeleOP extends GatorBase {
 
         }
 
+        if(shoot){
+            launch.setPosition(.5);
+        }
     }
 
     @Override
