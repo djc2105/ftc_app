@@ -20,6 +20,7 @@ public class ServoTest extends GatorBase {
     public void start() {
         super.start();
         navx.zeroYaw();
+        run_with_encoders();
     }
 
     @Override
@@ -54,6 +55,7 @@ public class ServoTest extends GatorBase {
         telemetry.addData("1 Testing Motor: ", testingMotor);
 //        rd.arcadeDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x);
         telemetry.addData("2 navX Yaw: ", navx.getYaw());
+        telemetry.addData("3 fl enc: ", get_fl_enc());
         super.loop();
     }
 

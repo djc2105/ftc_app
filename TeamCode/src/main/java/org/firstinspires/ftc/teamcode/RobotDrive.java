@@ -112,6 +112,20 @@ public class RobotDrive {
         m_rearRightMotor.setPower(wheelSpeeds[MotorType.kRearRight_val] * m_maxOutput);
     }
 
+    public void tankDrive(double left, double right) {
+        double wheelSpeeds[] = new double[kMaxNumberOfMotors];
+        wheelSpeeds[MotorType.kFrontLeft_val] = left;
+        wheelSpeeds[MotorType.kFrontRight_val] = right;
+        wheelSpeeds[MotorType.kRearLeft_val] = left;
+        wheelSpeeds[MotorType.kRearRight_val] = right;
+
+        normalize(wheelSpeeds);
+        m_frontLeftMotor.setPower(wheelSpeeds[MotorType.kFrontLeft_val] * m_maxOutput);
+        m_frontRightMotor.setPower(wheelSpeeds[MotorType.kFrontRight_val] * m_maxOutput);
+        m_rearLeftMotor.setPower(wheelSpeeds[MotorType.kRearLeft_val] * m_maxOutput);
+        m_rearRightMotor.setPower(wheelSpeeds[MotorType.kRearRight_val] * m_maxOutput);
+    }
+
     /**
      * Normalize all wheel speeds if the magnitude of any wheel is greater than
      * 1.0.

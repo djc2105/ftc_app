@@ -47,17 +47,14 @@ public class OneButtonAutoTest extends GatorBase {
                 }
                 break;
             case 2:
-                double error = navx.getYaw() * 0.07;
-                error = Range.clip(error, -0.1, 0.1);
-                double lefts = -0.15 + error;
-                double rights = -0.15 - error;
-                lefts = Range.clip(lefts, -0.15, 0.15);
-                rights = Range.clip(rights, -0.15, 0.15);
-                telemetry.addData("3 Error: ", error);
-                frontLeft.setPower(lefts);
-                backLeft.setPower(lefts);
-                frontRight.setPower(rights);
-                backRight.setPower(rights);
+//                double error = navx.getYaw() * 0.005;
+//                double error = get_fr_enc() - get_fl_enc() * 0.05;
+//                error = Range.clip(error, -0.5, 0.5);
+//                telemetry.addData("3 Error: ", error);
+//                double lefts = error < 0 ? 0.06 - error : 0.06;
+//                double rights = error > 0 ? 0.06 + error : 0.06;
+//                rd.tankDrive(-rights, -lefts);
+                rd.mecanumDrive_Cartesian(0, 0.05, 0, get_fl_enc() - get_fr_enc());
                 if (light.getLightDetected() > K_WHITE_LIGHT) {
                     auto_case++;
                 }
