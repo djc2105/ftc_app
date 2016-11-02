@@ -33,7 +33,7 @@ public class GatorBase extends OpMode {
     public static final double K_LEFT_SERVO_BOOP = 0.65;
     public static final double K_RIGHT_SERVO_STOW = 1.0;
     public static final double K_RIGHT_SERVO_BOOP = 0.5;
-    public static final double K_LAUNCH_SERVO_STOW = 0;
+    public static final double K_LAUNCH_SERVO_STOW = 0.6;
     public static final double K_LAUNCH_SERVO_ACTIVE = 0.8;
 
     public GatorBase() {
