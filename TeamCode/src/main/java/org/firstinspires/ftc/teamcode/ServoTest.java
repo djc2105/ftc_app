@@ -14,6 +14,7 @@ public class ServoTest extends GatorBase {
     @Override
     public void init() {
         super.init();
+        reset_encoders();
     }
 
     @Override
@@ -56,6 +57,8 @@ public class ServoTest extends GatorBase {
 //        rd.arcadeDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x);
         telemetry.addData("2 navX Yaw: ", navx.getYaw());
         telemetry.addData("3 fl enc: ", get_fl_enc());
+        telemetry.addData("4 fr enc: ", get_fr_enc());
+        telemetry.addData("5 light: ", light.getLightDetected());
         super.loop();
     }
 

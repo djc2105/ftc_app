@@ -48,13 +48,14 @@ public class OneButtonAutoTest extends GatorBase {
                 break;
             case 2:
 //                double error = navx.getYaw() * 0.005;
-//                double error = get_fr_enc() - get_fl_enc() * 0.05;
-//                error = Range.clip(error, -0.5, 0.5);
-//                telemetry.addData("3 Error: ", error);
+                double error = (get_fr_enc() - get_fl_enc()) * 0.001;
+                error = Range.clip(error, -0.2, 0.2);
+                telemetry.addData("3 Error: ", error);
 //                double lefts = error < 0 ? 0.06 - error : 0.06;
 //                double rights = error > 0 ? 0.06 + error : 0.06;
 //                rd.tankDrive(-rights, -lefts);
-                rd.mecanumDrive_Cartesian(0, 0.05, 0, get_fl_enc() - get_fr_enc());
+                rd.arcadeDrive(0.5, -error);
+//                rd.mecanumDrive_Cartesian(0, 0.05, 0, get_fl_enc() - get_fr_enc());
                 if (light.getLightDetected() > K_WHITE_LIGHT) {
                     auto_case++;
                 }
@@ -85,11 +86,48 @@ public class OneButtonAutoTest extends GatorBase {
                 }
                 break;
             case 8: // move to press
+                if (red_pos == 1) {
+                    rd.arcadeDrive(-0.1, 0);
+                } else {
+                    rd.arcadeDrive(0.1, 0);
+                }
                 auto_case++;
                 break;
-            case 9: // boop
+            case 9:
+                if (Math.abs(get_fl_enc()) > K_ONE_INCH * 2) {
+                    rd.arcadeDrive(0, 0);
+                    auto_case++;
+                }
+            case 10:
                 leftpush.setPosition(K_LEFT_SERVO_BOOP);
+                reset_encoders();
                 auto_case++;
+                break;
+            case 11:
+                if(have_encoders_reset()) {
+                    run_with_encoders();
+                    auto_case++;
+                }
+                break;
+            case 12: // boop
+                rd.arcadeDrive(0.2, 0);
+                auto_case++;
+                break;
+            case 13:
+                if (Math.abs(get_fl_enc()) > K_ONE_INCH * 1.5) {
+                    rd.arcadeDrive(0, 0);
+                    auto_case++;
+                }
+            case 14:
+                leftpush.setPosition(K_LEFT_SERVO_STOW);
+                reset_encoders();
+                auto_case++;
+                break;
+            case 15:
+                if(have_encoders_reset()) {
+                    run_with_encoders();
+                    auto_case++;
+                }
                 break;
             default:
                 break;
