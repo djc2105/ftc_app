@@ -95,7 +95,7 @@ public class OneButtonAutoTest extends GatorBase {
                 break;
             case 9:
                 if (red_pos == 1) {
-                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 1.2) {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 1) {
                         rd.arcadeDrive(0, 0);
                         auto_case++;
                     }
