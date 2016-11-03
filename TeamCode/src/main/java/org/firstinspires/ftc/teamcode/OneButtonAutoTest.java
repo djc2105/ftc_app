@@ -94,10 +94,18 @@ public class OneButtonAutoTest extends GatorBase {
                 auto_case++;
                 break;
             case 9:
-                if (Math.abs(get_fl_enc()) > K_ONE_INCH * 2) {
-                    rd.arcadeDrive(0, 0);
-                    auto_case++;
+                if (red_pos == 1) {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 1.2) {
+                        rd.arcadeDrive(0, 0);
+                        auto_case++;
+                    }
+                } else {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 2) {
+                        rd.arcadeDrive(0, 0);
+                        auto_case++;
+                    }
                 }
+                break;
             case 10:
                 leftpush.setPosition(K_LEFT_SERVO_BOOP);
                 reset_encoders();
@@ -114,10 +122,18 @@ public class OneButtonAutoTest extends GatorBase {
                 auto_case++;
                 break;
             case 13:
-                if (Math.abs(get_fl_enc()) > K_ONE_INCH * 1.5) {
-                    rd.arcadeDrive(0, 0);
-                    auto_case++;
+                if (red_pos == 1) {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 5) {
+                        rd.arcadeDrive(0, 0);
+                        auto_case++;
+                    }
+                } else {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 8) {
+                        rd.arcadeDrive(0, 0);
+                        auto_case++;
+                    }
                 }
+                break;
             case 14:
                 leftpush.setPosition(K_LEFT_SERVO_STOW);
                 reset_encoders();
