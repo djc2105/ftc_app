@@ -32,17 +32,70 @@ public class RedAuto extends GatorBase {
     public void loop() {
         switch (auto_case) {
             case 0:
+                reset_encoders();
+                auto_case++;
+                break;
+            case 1:
+                if (have_encoders_reset()) {
+                    run_with_encoders();
+                    rd.arcadeDrive(0.3, 0);
+                    auto_case++;
+                }
+                break;
+            case 2:
+                if (have_encoders_reached(K_ONE_INCH * 6)) {
+                    rd.arcadeDrive(0, 0);
+                    auto_case++;
+                }
+                break;
+            case 3:
+                if (navx_turn(0.3, -45)) {
+                    rd.arcadeDrive(0, 0);
+                    reset_yaw();
+                    reset_encoders();
+                    auto_case++;
+                }
+                break;
+            case 4:
+                if (have_encoders_reset()) {
+                    run_with_encoders();
+                    rd.arcadeDrive(0.5, 0);
+                    auto_case++;
+                }
+                break;
+            case 5:
+                if (have_encoders_reached(K_ONE_INCH * 24)) {
+                    rd.arcadeDrive(0, 0);
+                    auto_case++;
+                }
+                break;
+            case 6:
+                if (navx_turn(0.3, 45)) {
+                    rd.arcadeDrive(0, 0);
+                    reset_yaw();
+                    auto_case++;
+                }
+                break;
+            case 7:
+                if (ultraLeft.getUltrasonicLevel() > 6) {
+                    rd.mecanumDrive_Cartesian(-0.5, 0, 0, navx.getYaw());
+                } else {
+                    rd.arcadeDrive(0, 0);
+                    auto_case++;
+                }
+                break;
+            case 8:
                 if (beacon(beacon_case)) {
                     auto_case++;
                 }
                 break;
-            case 1:
+            case 9:
                 beacon_case = 0;
                 red_pos = 0;
                 reset_yaw();
                 auto_case++;
                 break;
-            case 2:
+            case 10:
                 if (beacon(beacon_case)) {
                     auto_case++;
                 }
@@ -72,7 +125,8 @@ public class RedAuto extends GatorBase {
                 break;
             case 2:
 //                double error = navx.getYaw() * 0.005;
-                double error = (get_fr_enc() - get_fl_enc()) * 0.001;
+//                double error = (get_fr_enc() - get_fl_enc()) * 0.001;
+                double error = (6 - ultraLeft.getUltrasonicLevel()) * -0.1;
                 error = Range.clip(error, -0.2, 0.2);
                 telemetry.addData("3 Error: ", error);
 //                double lefts = error < 0 ? 0.06 - error : 0.06;
@@ -124,7 +178,7 @@ public class RedAuto extends GatorBase {
                 break;
             case 10:
                 if (red_pos == 1) {
-                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 0.7) {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 0.5) {
                         rd.arcadeDrive(0, 0);
                         beacon_case++;
                     }

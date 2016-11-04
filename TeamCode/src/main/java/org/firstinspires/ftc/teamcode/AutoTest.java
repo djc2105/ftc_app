@@ -39,7 +39,7 @@ public class AutoTest extends GatorBase {
                 auto_case++;
                 break;
             case 3:
-                if (have_encoders_reached(K_ONE_INCH * 12, K_ONE_INCH * 12, K_ONE_INCH * 12, K_ONE_INCH * 12)) {
+                if (have_encoders_reached(K_ONE_INCH * 12)) {
                     rd.arcadeDrive(0, 0);
                     auto_case++;
                 }

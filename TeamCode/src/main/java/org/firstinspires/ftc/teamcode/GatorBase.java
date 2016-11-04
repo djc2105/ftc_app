@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorController.*;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 /**
  * Created by andrew on Oct 22, 2016 as part of ftc_app in org.firstinspires.ftc.teamcode.
@@ -26,6 +27,7 @@ public class GatorBase extends OpMode {
     public DcMotor flyright;
     public Servo leftpush, rightpush, launch;
     public AHRS navx;
+    public UltrasonicSensor ultraLeft, ultraRight;
     private I2cAddr leftAddr = I2cAddr.create8bit(0x3c), rightAddr = I2cAddr.create8bit(0x3e);
     private final int NAVX_DIM_I2C_PORT = 3;
     public static final double K_WHITE_LIGHT = 0.45;
@@ -33,8 +35,8 @@ public class GatorBase extends OpMode {
     public static final double K_LEFT_SERVO_BOOP = 0.65;
     public static final double K_RIGHT_SERVO_STOW = 1.0;
     public static final double K_RIGHT_SERVO_BOOP = 0.5;
-    public static final double K_LAUNCH_SERVO_STOW = 0.5;
-    public static final double K_LAUNCH_SERVO_ACTIVE = 1.0;
+    public static final double K_LAUNCH_SERVO_ACTIVE = 0.5;
+    public static final double K_LAUNCH_SERVO_STOW = 1.0;
     public static final int K_PULSES_PER_REVOLUTION = 1098;
     public static final double K_DISTANCE_PER_REVOLUTION = 4 * 3.141592;
     public static final double K_ONE_INCH = K_PULSES_PER_REVOLUTION/K_DISTANCE_PER_REVOLUTION;
@@ -63,6 +65,9 @@ public class GatorBase extends OpMode {
         light = hardwareMap.lightSensor.get("light");
         left = hardwareMap.colorSensor.get("left");
         right = hardwareMap.colorSensor.get("right");
+
+        ultraLeft = hardwareMap.ultrasonicSensor.get("ultraLeft");
+        ultraRight = hardwareMap.ultrasonicSensor.get("ultraRight");
         left.setI2cAddress(leftAddr);
         right.setI2cAddress(rightAddr);
 
@@ -183,11 +188,11 @@ public class GatorBase extends OpMode {
         return out;
     }
 
-    public boolean have_encoders_reached(double fl, double bl, double fr, double br) { // 1 rot = 4pi inches = 280 enc
+    public boolean have_encoders_reached(double target) { // 1 rot = 4pi inches = 280 enc
         boolean out = false;
 
         if (frontLeft != null && backLeft != null && frontRight != null && backRight != null) {
-            if (Math.abs(get_fl_enc()) >= fl && Math.abs(get_bl_enc()) >= bl && Math.abs(get_fr_enc()) >= fr && Math.abs(get_br_enc()) >= br) {
+            if (Math.abs(get_fl_enc()) >= target && Math.abs(get_bl_enc()) >= target && Math.abs(get_fr_enc()) >= target && Math.abs(get_br_enc()) >= target) {
                 out = true;
             }
         }

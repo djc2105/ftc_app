@@ -28,6 +28,8 @@ public class Test_Calibrate_Sensors extends GatorBase {
         telemetry.addData("4 Right Red: ", right.red());
         telemetry.addData("5 Right Green: ", right.green());
         telemetry.addData("6 Right Blue: ", right.blue());
+        telemetry.addData("7 Ultra Left: ", ultraLeft.getUltrasonicLevel()); // 6 ultra units to wall
+        telemetry.addData("8 Ultra Right: ", ultraRight.getUltrasonicLevel()); // 6 ultra units to wall
 
         telemetry.update();
     }
