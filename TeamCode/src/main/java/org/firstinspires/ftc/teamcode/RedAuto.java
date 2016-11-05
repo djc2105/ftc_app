@@ -100,6 +100,27 @@ public class RedAuto extends GatorBase {
                     auto_case++;
                 }
                 break;
+            case 11:
+                if (navx_turn(0.3, 135)) {
+                    rd.arcadeDrive(0, 0);
+                    reset_yaw();
+                    reset_encoders();
+                    auto_case++;
+                }
+                break;
+            case 12:
+                if (have_encoders_reset()) {
+                    run_with_encoders();
+                    rd.arcadeDrive(0.5, 0);
+                    auto_case++;
+                }
+                break;
+            case 13:
+                if (have_encoders_reached(K_ONE_INCH * 36)) {
+                    rd.arcadeDrive(0, 0);
+                    auto_case++;
+                }
+                break;
             default:
                 break;
         }
@@ -243,7 +264,7 @@ public class RedAuto extends GatorBase {
                 break;
             case 18:
                 if (red_pos == 1) {
-                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 10) {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 8) {
                         rd.arcadeDrive(0, 0);
                         beacon_case++;
                     }
