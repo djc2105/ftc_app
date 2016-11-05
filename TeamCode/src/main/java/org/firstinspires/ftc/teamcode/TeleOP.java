@@ -60,8 +60,8 @@ public class TeleOP extends GatorBase {
         float direction = -gamepad1.left_stick_x;
 
         //Gets gamepad vales for the lift
-        boolean lifton = gamepad1.dpad_up;
-        boolean liftReverse = gamepad1.dpad_down;
+        boolean lifton = gamepad1.a;
+        boolean liftReverse = gamepad1.y;
 
         //Gets gamepad vales for the fluwheel
         boolean flyon = gamepad1.left_bumper;
@@ -72,12 +72,13 @@ public class TeleOP extends GatorBase {
         float mec = mecright - mecleft;
 
         //Gets gamepad vales for servos
-        boolean leftpush = gamepad1.dpad_left;
-        boolean rightpush = gamepad1.dpad_right;
+        boolean leftboop = gamepad1.x;
+        boolean rightboop = gamepad1.b;
         boolean shoot = gamepad1.right_bumper;
 
         //Use mecanum program and pass it values
         rd.mecanumDrive_Cartesian(-mec, throttle, direction, 0);
+
 
         //turn on ball lift if button is pressed
         if (lifton) {
@@ -100,8 +101,11 @@ public class TeleOP extends GatorBase {
         }
 
         // Turns servos on
-        if(leftpush){
-
+        if(leftboop){
+            leftpush.setPosition(K_LEFT_SERVO_BOOP);
+        }
+        if (rightboop){
+            rightpush.setPosition(K_RIGHT_SERVO_BOOP);
         }
 
         if(shoot){
