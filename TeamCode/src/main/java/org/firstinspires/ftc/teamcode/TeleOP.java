@@ -104,8 +104,14 @@ public class TeleOP extends GatorBase {
         if(leftboop){
             leftpush.setPosition(K_LEFT_SERVO_BOOP);
         }
+        else{
+            leftpush.setPosition(K_LEFT_SERVO_STOW);
+        }
         if (rightboop){
             rightpush.setPosition(K_RIGHT_SERVO_BOOP);
+        }
+        else{
+            rightpush.setPosition(K_RIGHT_SERVO_STOW);
         }
 
         if(shoot){
