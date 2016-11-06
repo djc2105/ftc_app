@@ -56,7 +56,7 @@ public class TeleOP extends GatorBase {
     public void loop() {
 
         //Get joystick values
-        float throttle = -gamepad1.left_stick_y;
+        float throttle = gamepad1.a ? gamepad1.left_stick_y : -gamepad1.left_stick_y;
         float direction = -gamepad1.left_stick_x;
 
         //Gets gamepad vales for the lift
@@ -92,8 +92,8 @@ public class TeleOP extends GatorBase {
 
         //turn on flywheel if left trigger is pressed
         if (flyon){
-            flyleft.setPower(0.80);
-            flyright.setPower(-0.80);
+            flyleft.setPower(-1);
+            flyright.setPower(1);
         }
         else{
             flyleft.setPower(0.00);
