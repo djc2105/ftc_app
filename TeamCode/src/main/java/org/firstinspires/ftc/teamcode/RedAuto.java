@@ -43,47 +43,57 @@ public class RedAuto extends GatorBase {
                 }
                 break;
             case 2:
-                if (have_encoders_reached(K_ONE_INCH * 6)) {
+                if (have_encoders_reached(K_ONE_INCH * 32)) {
                     rd.arcadeDrive(0, 0);
                     auto_case++;
                 }
                 break;
             case 3:
-                if (navx_turn(0.3, -45)) {
-                    rd.arcadeDrive(0, 0);
-                    reset_yaw();
-                    reset_encoders();
-                    auto_case++;
-                }
-                break;
-            case 4:
-                if (have_encoders_reset()) {
-                    run_with_encoders();
-                    rd.arcadeDrive(0.5, 0);
-                    auto_case++;
-                }
-                break;
-            case 5:
-                if (have_encoders_reached(K_ONE_INCH * 24)) {
-                    rd.arcadeDrive(0, 0);
-                    auto_case++;
-                }
-                break;
-            case 6:
-                if (navx_turn(0.3, 45)) {
-                    rd.arcadeDrive(0, 0);
-                    reset_yaw();
-                    auto_case++;
-                }
-                break;
-            case 7:
                 if (ultraLeft.getUltrasonicLevel() > 6) {
-                    rd.mecanumDrive_Cartesian(-0.5, 0, 0, navx.getYaw());
+                    rd.mecanumDrive_Cartesian(0.5, 0, navx.getYaw() * 0.05, 0);
                 } else {
                     rd.arcadeDrive(0, 0);
                     auto_case++;
                 }
                 break;
+            case 4:
+                if (navx_turn(0.3, 0)) {
+                    rd.arcadeDrive(0, 0);
+                    reset_encoders();
+                    auto_case++;
+                }
+                break;
+            case 5:
+                if (have_encoders_reset()) {
+                    run_with_encoders();
+                    rd.arcadeDrive(-0.5, 0);
+                    auto_case++;
+                }
+                break;
+            case 6:
+                if (have_encoders_reached(K_ONE_INCH * 3)) {
+                    rd.arcadeDrive(0, 0);
+                    auto_case+=2;
+                }
+                break;
+//            case 5:
+//                if (ultraLeft.getUltrasonicLevel() != 6) {
+//                    rd.mecanumDrive_Cartesian((ultraLeft.getUltrasonicLevel() - 6) * 0.1, 0, navx.getYaw() * 0.05, 0);
+//                } else {
+//                    rd.arcadeDrive(0, 0);
+//                    auto_case++;
+//                }
+//                break;
+//            case 6:
+//                if (navx_turn(0.3, 0)) {
+//                    rd.arcadeDrive(0, 0);
+//                    reset_yaw();
+//                    auto_case++;
+//                }
+//                break;
+//            case 7:
+//                auto_case++;
+//                break;
             case 8:
                 if (beacon(beacon_case)) {
                     auto_case++;
@@ -92,31 +102,44 @@ public class RedAuto extends GatorBase {
             case 9:
                 beacon_case = 0;
                 red_pos = 0;
-                reset_yaw();
                 auto_case++;
                 break;
             case 10:
                 if (beacon(beacon_case)) {
+                    reset_encoders();
                     auto_case++;
                 }
                 break;
             case 11:
-                if (navx_turn(0.3, 135)) {
+                if (have_encoders_reset()) {
+                    run_with_encoders();
+                    rd.arcadeDrive(-0.4, 0);
+                    auto_case++;
+                }
+                break;
+            case 12:
+                if (have_encoders_reached(K_ONE_INCH*2)) {
+                    rd.arcadeDrive(0, 0);
+                    auto_case++;
+                }
+                break;
+            case 13:
+                if (navx_turn(0.3, 140)) {
                     rd.arcadeDrive(0, 0);
                     reset_yaw();
                     reset_encoders();
                     auto_case++;
                 }
                 break;
-            case 12:
+            case 14:
                 if (have_encoders_reset()) {
                     run_with_encoders();
                     rd.arcadeDrive(0.5, 0);
                     auto_case++;
                 }
                 break;
-            case 13:
-                if (have_encoders_reached(K_ONE_INCH * 36)) {
+            case 15:
+                if (have_encoders_reached(K_ONE_INCH * 74)) {
                     rd.arcadeDrive(0, 0);
                     auto_case++;
                 }
@@ -175,9 +198,10 @@ public class RedAuto extends GatorBase {
                 beacon_case++;
                 break;
             case 6:
-                if (navx_turn(0.2, -0.2)) {
-                    beacon_case++;
-                }
+//                if (navx_turn(0.2, -0.2)) {
+//                    beacon_case++;
+//                }
+                beacon_case++;
                 break;
             case 7:
                 reset_encoders();
@@ -236,7 +260,7 @@ public class RedAuto extends GatorBase {
                         beacon_case++;
                     }
                 } else {
-                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 8) {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 5) {
                         rd.arcadeDrive(0, 0);
                         beacon_case++;
                     }
@@ -244,10 +268,11 @@ public class RedAuto extends GatorBase {
                 break;
             case 15:
                 leftpush.setPosition(K_LEFT_SERVO_STOW);
-                if (navx_turn(0.2, -0.3)) {
-                    rd.mecanumDrive_Cartesian(0, 0, 0, 0);
-                    beacon_case++;
-                }
+//                if (navx_turn(0.2, -0.3)) {
+//                    rd.mecanumDrive_Cartesian(0, 0, 0, 0);
+//                    beacon_case++;
+//                }
+                beacon_case++;
                 break;
             case 16:
                 reset_encoders();
@@ -297,3 +322,33 @@ public class RedAuto extends GatorBase {
     }
 
 }
+
+
+//            case 3:
+//                if (navx_turn(0.3, -45)) {
+//                    rd.arcadeDrive(0, 0);
+//                    reset_yaw();
+//                    reset_encoders();
+//                    auto_case++;
+//                }
+//                break;
+//            case 4:
+//                if (have_encoders_reset()) {
+//                    run_with_encoders();
+//                    rd.arcadeDrive(0.5, 0);
+//                    auto_case++;
+//                }
+//                break;
+//            case 5:
+//                if (have_encoders_reached(K_ONE_INCH * 24)) {
+//                    rd.arcadeDrive(0, 0);
+//                    auto_case++;
+//                }
+//                break;
+//            case 6:
+//                if (navx_turn(0.3, 45)) {
+//                    rd.arcadeDrive(0, 0);
+//                    reset_yaw();
+//                    auto_case++;
+//                }
+//                break;
