@@ -13,6 +13,7 @@ public class RedAuto extends GatorBase {
     private int auto_case;
     private int beacon_case;
     private int red_pos;
+    private double spool_start;
 
     @Override
     public void init() {
@@ -95,7 +96,7 @@ public class RedAuto extends GatorBase {
 //                auto_case++;
 //                break;
             case 8:
-                if (beacon(beacon_case)) {
+                if (beacon(beacon_case, 0)) {
                     auto_case++;
                 }
                 break;
@@ -105,7 +106,7 @@ public class RedAuto extends GatorBase {
                 auto_case++;
                 break;
             case 10:
-                if (beacon(beacon_case)) {
+                if (beacon(beacon_case, 1)) {
                     reset_encoders();
                     auto_case++;
                 }
@@ -124,7 +125,7 @@ public class RedAuto extends GatorBase {
                 }
                 break;
             case 13:
-                if (navx_turn(0.3, 140)) {
+                if (navx_turn(0.3, 135)) {
                     rd.arcadeDrive(0, 0);
                     reset_yaw();
                     reset_encoders();
@@ -139,7 +140,36 @@ public class RedAuto extends GatorBase {
                 }
                 break;
             case 15:
-                if (have_encoders_reached(K_ONE_INCH * 74)) {
+                if (have_encoders_reached(K_ONE_INCH * 45)) {
+                    rd.arcadeDrive(0, 0);
+                    auto_case++;
+                }
+                break;
+            case 16:
+                flyright.setPower(1);
+                flyleft.setPower(-1);
+                spool_start = getRuntime();
+                auto_case++;
+                break;
+            case 17:
+                if (getRuntime() > spool_start + 2) {
+                    launch.setPosition(K_LAUNCH_SERVO_ACTIVE);
+                    spool_start = getRuntime();
+                    auto_case++;
+                }
+                break;
+            case 18:
+                if (getRuntime() > spool_start + 1) {
+                    launch.setPosition(K_LAUNCH_SERVO_STOW);
+                    flyright.setPower(0);
+                    flyleft.setPower(0);
+                    spool_start = getRuntime();
+                    rd.arcadeDrive(0.5, 0);
+                    auto_case++;
+                }
+                break;
+            case 19:
+                if (have_encoders_reached(K_ONE_INCH * 72)) {
                     rd.arcadeDrive(0, 0);
                     auto_case++;
                 }
@@ -154,7 +184,7 @@ public class RedAuto extends GatorBase {
         super.stop();
     }
 
-    public boolean beacon(int bcase) {
+    public boolean beacon(int bcase, int type) {
         boolean done = false;
         switch (bcase) {
             case 0:
@@ -198,10 +228,10 @@ public class RedAuto extends GatorBase {
                 beacon_case++;
                 break;
             case 6:
-//                if (navx_turn(0.2, -0.2)) {
-//                    beacon_case++;
-//                }
-                beacon_case++;
+                if (navx_turn(0.2, -0.2)) {
+                    beacon_case++;
+                }
+//                beacon_case++;
                 break;
             case 7:
                 reset_encoders();
@@ -215,7 +245,7 @@ public class RedAuto extends GatorBase {
                 break;
             case 9: // move to press
                 if (red_pos == 1) {
-                    rd.arcadeDrive(0.1, 0);
+                    rd.arcadeDrive(-0.1, 0);
                 } else {
                     rd.arcadeDrive(0.1, 0);
                 }
@@ -223,7 +253,7 @@ public class RedAuto extends GatorBase {
                 break;
             case 10:
                 if (red_pos == 1) {
-                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 0.5) {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 0.2) {
                         rd.arcadeDrive(0, 0);
                         beacon_case++;
                     }
@@ -268,11 +298,11 @@ public class RedAuto extends GatorBase {
                 break;
             case 15:
                 leftpush.setPosition(K_LEFT_SERVO_STOW);
-//                if (navx_turn(0.2, -0.3)) {
-//                    rd.mecanumDrive_Cartesian(0, 0, 0, 0);
-//                    beacon_case++;
-//                }
-                beacon_case++;
+                if (navx_turn(0.2, -0.3)) {
+                    rd.mecanumDrive_Cartesian(0, 0, 0, 0);
+                    beacon_case++;
+                }
+//                beacon_case++;
                 break;
             case 16:
                 reset_encoders();
