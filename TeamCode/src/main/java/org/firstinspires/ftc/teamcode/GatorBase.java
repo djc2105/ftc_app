@@ -30,7 +30,7 @@ public class GatorBase extends OpMode {
     public UltrasonicSensor ultraLeft, ultraRight;
     private I2cAddr leftAddr = I2cAddr.create8bit(0x3c), rightAddr = I2cAddr.create8bit(0x3e);
     private final int NAVX_DIM_I2C_PORT = 3;
-    public static final double K_WHITE_LIGHT = 0.45;
+    public static final double K_WHITE_LIGHT = 0.42;
     public static final double K_LEFT_SERVO_STOW = 0;
     public static final double K_LEFT_SERVO_BOOP = 0.65;
     public static final double K_RIGHT_SERVO_STOW = 1.0;

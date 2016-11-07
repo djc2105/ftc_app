@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.util.Range;
 @Autonomous(name = "Auto: Red", group = "NOTDANNY")
 public class RedAuto extends GatorBase {
 
-    private int auto_case;
-    private int beacon_case;
+    private int auto_case = -4;
+    private int beacon_case = 0;
     private int red_pos;
     private double spool_start;
 
@@ -32,19 +32,45 @@ public class RedAuto extends GatorBase {
     @Override
     public void loop() {
         switch (auto_case) {
-            case 0:
+            case -4:
                 reset_encoders();
                 auto_case++;
                 break;
-            case 1:
+            case -3:
                 if (have_encoders_reset()) {
                     run_with_encoders();
                     rd.arcadeDrive(0.3, 0);
                     auto_case++;
                 }
                 break;
+            case -2:
+                if (have_encoders_reached(K_ONE_INCH * 3)) {
+                    rd.arcadeDrive(0, 0);
+                    auto_case++;
+                }
+                break;
+            case -1:
+                if (navx_turn(0.2, -50)) {
+                    rd.arcadeDrive(0, 0);
+                    reset_encoders();
+                    auto_case++;
+                }
+                break;
+            case 0:
+                if (have_encoders_reset()) {
+                    run_with_encoders();
+                    rd.arcadeDrive(0.5, 0);
+                    auto_case++;
+                }
+                break;
+            case 1:
+                if (have_encoders_reached(K_ONE_INCH * 64)) {
+                    rd.arcadeDrive(0, 0);
+                    auto_case++;
+                }
+                break;
             case 2:
-                if (have_encoders_reached(K_ONE_INCH * 32)) {
+                if (navx_turn(0.2, 0)) {
                     rd.arcadeDrive(0, 0);
                     auto_case++;
                 }
@@ -67,7 +93,7 @@ public class RedAuto extends GatorBase {
             case 5:
                 if (have_encoders_reset()) {
                     run_with_encoders();
-                    rd.arcadeDrive(-0.5, 0);
+                    rd.arcadeDrive(-0.3, 0);
                     auto_case++;
                 }
                 break;
@@ -114,7 +140,7 @@ public class RedAuto extends GatorBase {
             case 11:
                 if (have_encoders_reset()) {
                     run_with_encoders();
-                    rd.arcadeDrive(-0.4, 0);
+                    rd.mecanumDrive_Cartesian(-0.5, -0.2, navx.getYaw() * 0.05, 0);
                     auto_case++;
                 }
                 break;
@@ -177,6 +203,7 @@ public class RedAuto extends GatorBase {
             default:
                 break;
         }
+        telemetry.addData("0 Auto Phase: ", auto_case);
     }
 
     @Override
@@ -197,7 +224,7 @@ public class RedAuto extends GatorBase {
                     beacon_case++;
                 }
                 break;
-            case 2:
+            case 2: // drive up to beacon, following wall
 //                double error = navx.getYaw() * 0.005;
 //                double error = (get_fr_enc() - get_fl_enc()) * 0.001;
                 double error = (6 - ultraLeft.getUltrasonicLevel()) * -0.1;
@@ -219,7 +246,7 @@ public class RedAuto extends GatorBase {
             case 4: // Might need to move to sense colors?
                 beacon_case++;
                 break;
-            case 5:
+            case 5: // check colors
                 if (left.red() > left.blue()) {
                     red_pos = 1;
                 } else {
@@ -227,7 +254,7 @@ public class RedAuto extends GatorBase {
                 }
                 beacon_case++;
                 break;
-            case 6:
+            case 6: // turn to align with beacon
                 if (navx_turn(0.2, -0.2)) {
                     beacon_case++;
                 }
@@ -253,18 +280,28 @@ public class RedAuto extends GatorBase {
                 break;
             case 10:
                 if (red_pos == 1) {
-                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 0.2) {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 0.7) {
                         rd.arcadeDrive(0, 0);
                         beacon_case++;
+                    } else {
+                        error = (6 - ultraLeft.getUltrasonicLevel()) * -0.1;
+                        error = Range.clip(error, -0.04, 0.04);
+                        telemetry.addData("3 Error: ", error);
+                        rd.arcadeDrive(-0.1, 0);
                     }
                 } else {
-                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 2) {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 4.5) {
                         rd.arcadeDrive(0, 0);
                         beacon_case++;
+                    } else {
+                        error = (6 - ultraLeft.getUltrasonicLevel()) * -0.1;
+                        error = Range.clip(error, -0.04, 0.04);
+                        telemetry.addData("3 Error: ", error);
+                        rd.arcadeDrive(0.1, error);
                     }
                 }
                 break;
-            case 11:
+            case 11: // deploy servo
                 leftpush.setPosition(K_LEFT_SERVO_BOOP);
                 reset_encoders();
                 beacon_case++;
@@ -283,22 +320,22 @@ public class RedAuto extends GatorBase {
                 }
                 beacon_case++;
                 break;
-            case 14:
+            case 14: // drive past, servo out
                 if (red_pos == 1) {
-                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 7) {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 2) {
                         rd.arcadeDrive(0, 0);
                         beacon_case++;
                     }
                 } else {
-                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 5) {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 2) {
                         rd.arcadeDrive(0, 0);
                         beacon_case++;
                     }
                 }
                 break;
-            case 15:
+            case 15: // realign
                 leftpush.setPosition(K_LEFT_SERVO_STOW);
-                if (navx_turn(0.2, -0.3)) {
+                if (navx_turn(0.2, 0)) {
                     rd.mecanumDrive_Cartesian(0, 0, 0, 0);
                     beacon_case++;
                 }
@@ -308,7 +345,7 @@ public class RedAuto extends GatorBase {
                 reset_encoders();
                 beacon_case++;
                 break;
-            case 17:
+            case 17: // drive past line if red
                 if (have_encoders_reset()) {
                     run_with_encoders();
                     if (red_pos == 1) {
@@ -319,7 +356,7 @@ public class RedAuto extends GatorBase {
                 break;
             case 18:
                 if (red_pos == 1) {
-                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 8) {
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 6) {
                         rd.arcadeDrive(0, 0);
                         beacon_case++;
                     }
@@ -331,7 +368,6 @@ public class RedAuto extends GatorBase {
                 done = true;
                 break;
         }
-        telemetry.addData("0 Auto Phase: ", beacon_case);
         telemetry.addData("1 Red Pos: ", red_pos);
         return done;
 
