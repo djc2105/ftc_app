@@ -35,7 +35,7 @@ public class ServoTest extends GatorBase {
 //        } else if (gamepad1.b) {
 //            testingMotor = 3;
 //        }
-//        leftpush.setPosition(gamepad1.right_stick_x);
+        leftpush.setPosition(gamepad1.right_stick_x);
 //        switch (testingMotor) {
 //            case 0:
 //                backLeft.setPower(gamepad1.left_stick_y);
@@ -55,7 +55,7 @@ public class ServoTest extends GatorBase {
         telemetry.addData("0 Servo Pos: ", gamepad1.right_stick_x);
         telemetry.addData("1 Testing Motor: ", testingMotor);
 //        rd.arcadeDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x);
-        rd.mecanumDrive_Cartesian(gamepad1.left_stick_x, gamepad1.left_stick_y, 0, -navx.getYaw());
+//        rd.mecanumDrive_Cartesian(gamepad1.left_stick_x, gamepad1.left_stick_y, 0, -navx.getYaw());
         telemetry.addData("2 navX Yaw: ", navx.getYaw());
         telemetry.addData("3 fl enc: ", get_fl_enc());
         telemetry.addData("4 fr enc: ", get_fr_enc());
