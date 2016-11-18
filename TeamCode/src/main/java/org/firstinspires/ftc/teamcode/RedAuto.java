@@ -279,8 +279,8 @@ public class RedAuto extends GatorBase {
                 beacon_case++;
                 break;
             case 10:
-                if (red_pos == 1) {
-                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 0.7) {
+                if (red_pos == 1) { // if red is closer to drivers
+                    if (Math.abs(get_fl_enc()) > K_ONE_INCH * 0.7) { // if we've driven 0.7 inches to the button
                         rd.arcadeDrive(0, 0);
                         beacon_case++;
                     } else {
