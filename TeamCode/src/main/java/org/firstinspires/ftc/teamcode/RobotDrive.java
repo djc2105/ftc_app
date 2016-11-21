@@ -132,11 +132,12 @@ public class RobotDrive {
      */
     protected static void normalize(double wheelSpeeds[]) {
         for (int i = 0; i < wheelSpeeds.length; i++) {
-            if (wheelSpeeds[i] < -1) {
-                wheelSpeeds[1] = -1;
-            } else if (wheelSpeeds[i] > 1) {
-                wheelSpeeds[1] = 1;
-            }
+            wheelSpeeds[i] = wheelSpeeds[i] < -1 ? -1 : wheelSpeeds[i] > 1 ? 1 : wheelSpeeds[i];
+//            if (wheelSpeeds[i] < -1) {
+//                wheelSpeeds[i] = -1;
+//            } else if (wheelSpeeds[i] > 1) {
+//                wheelSpeeds[i] = 1;
+//            }
         }
     }
 

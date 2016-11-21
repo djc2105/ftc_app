@@ -38,14 +38,14 @@ public class ShootAuto extends GatorBase {
                 }
                 break;
             case 1:
-                if (have_encoders_reached(K_ONE_INCH * 29)) {
+                if (have_encoders_reached(K_ONE_INCH * 24)) {
                     rd.arcadeDrive(0, 0);
                     auto_case++;
                 }
                 break;
             case 2:
-                flyright.setPower(1);
-                flyleft.setPower(-1);
+                flyright.setPower(K_FLYWHEEL_SPEED);
+                flyleft.setPower(-K_FLYWHEEL_SPEED);
                 spool_start = getRuntime();
                 auto_case++;
                 break;
@@ -78,8 +78,8 @@ public class ShootAuto extends GatorBase {
                 }
                 break;
             case 7:
-                flyright.setPower(1);
-                flyleft.setPower(-1);
+                flyright.setPower(K_FLYWHEEL_SPEED);
+                flyleft.setPower(-K_FLYWHEEL_SPEED);
                 spool_start = getRuntime();
                 auto_case++;
                 break;
@@ -99,6 +99,26 @@ public class ShootAuto extends GatorBase {
                     auto_case++;
                 }
                 break;
+            case 10:
+                if (navx_turn(0.15, 40)) {
+                    rd.arcadeDrive(0, 0);
+                    reset_encoders();
+                    auto_case++;
+                }
+                break;
+            case 11:
+                if (have_encoders_reset()) {
+                    run_with_encoders();
+                    rd.arcadeDrive(0.4, 0);
+                    auto_case++;
+                }
+                break;
+            case 12:
+                if (have_encoders_reached(K_ONE_INCH * 72)) {
+                    rd.arcadeDrive(0, 0);
+                    auto_case++;
+                }
+                break;
 //            case 5:
 //                if (have_encoders_reached(K_ONE_INCH * 54)) {
 //                    rd.arcadeDrive(0, 0);
@@ -108,5 +128,21 @@ public class ShootAuto extends GatorBase {
             default:
                 break;
         }
+
+
+    }
+
+    public boolean navx_turn(double power, double target) {
+        boolean at_target = navx.getYaw() <= target + K_NAVX_ERROR_TOLERANCE && navx.getYaw() >= target - K_NAVX_ERROR_TOLERANCE;
+        if (!at_target) {
+            if (navx.getYaw() < target) {
+                rd.arcadeDrive(0, power);
+            } else {
+                rd.arcadeDrive(0, -power);
+            }
+        } else {
+            rd.arcadeDrive(0, 0);
+        }
+        return at_target;
     }
 }

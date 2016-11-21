@@ -30,17 +30,18 @@ public class GatorBase extends OpMode {
     public UltrasonicSensor ultraLeft, ultraRight;
     private I2cAddr leftAddr = I2cAddr.create8bit(0x3c), rightAddr = I2cAddr.create8bit(0x3e);
     private final int NAVX_DIM_I2C_PORT = 3;
-    public static final double K_WHITE_LIGHT = 0.42;
+    public static final double K_WHITE_LIGHT = 0.32;
     public static final double K_LEFT_SERVO_STOW = 0;
-    public static final double K_LEFT_SERVO_BOOP = 0.65;
-    public static final double K_RIGHT_SERVO_STOW = 1.0;
-    public static final double K_RIGHT_SERVO_BOOP = 0.5;
+    public static final double K_LEFT_SERVO_BOOP = 1;
+    public static final double K_RIGHT_SERVO_STOW = 1;
+    public static final double K_RIGHT_SERVO_BOOP = 0;
     public static final int K_PULSES_PER_REVOLUTION = 1120;
     public static final double K_LAUNCH_SERVO_STOW = 0.8;
     public static final double K_LAUNCH_SERVO_ACTIVE = 0.4;
     public static final double K_DISTANCE_PER_REVOLUTION = 4 * 3.141592;
     public static final double K_ONE_INCH = K_PULSES_PER_REVOLUTION/K_DISTANCE_PER_REVOLUTION;
     public static final double K_NAVX_ERROR_TOLERANCE = 1;
+    public static final double K_FLYWHEEL_SPEED = 0.45;
 
     public GatorBase() {
 
@@ -83,6 +84,8 @@ public class GatorBase extends OpMode {
 
         flyleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         flyright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        flyleft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flyright.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         navx = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get("dim"),
                 NAVX_DIM_I2C_PORT,
@@ -192,7 +195,7 @@ public class GatorBase extends OpMode {
         boolean out = false;
 
         if (frontLeft != null && backLeft != null && frontRight != null && backRight != null) {
-            if (Math.abs(get_fl_enc()) >= target && Math.abs(get_bl_enc()) >= target && Math.abs(get_fr_enc()) >= target && Math.abs(get_br_enc()) >= target) {
+            if (Math.abs(get_fl_enc()) >= target && /*Math.abs(get_bl_enc()) >= target &&*/ Math.abs(get_fr_enc()) >= target && Math.abs(get_br_enc()) >= target) {
                 out = true;
             }
         }
@@ -201,7 +204,7 @@ public class GatorBase extends OpMode {
     }
 
     public boolean have_encoders_reset() {
-        return get_bl_enc() == 0 && get_br_enc() == 0 && get_fl_enc() == 0 && get_fr_enc() == 0;
+        return /*get_bl_enc() == 0 &&*/ get_br_enc() == 0 && get_fl_enc() == 0 && get_fr_enc() == 0;
     }
 
 }

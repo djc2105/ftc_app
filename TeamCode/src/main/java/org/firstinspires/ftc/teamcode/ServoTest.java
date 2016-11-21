@@ -59,7 +59,9 @@ public class ServoTest extends GatorBase {
         telemetry.addData("2 navX Yaw: ", navx.getYaw());
         telemetry.addData("3 fl enc: ", get_fl_enc());
         telemetry.addData("4 fr enc: ", get_fr_enc());
-        telemetry.addData("5 light: ", light.getLightDetected());
+        telemetry.addData("5 bl enc: ", get_bl_enc());
+        telemetry.addData("6 br enc: ", get_br_enc());
+        telemetry.addData("7 light: ", light.getLightDetected());
         super.loop();
     }
 

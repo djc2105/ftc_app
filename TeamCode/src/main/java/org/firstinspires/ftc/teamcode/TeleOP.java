@@ -92,8 +92,8 @@ public class TeleOP extends GatorBase {
 
         //turn on flywheel if left trigger is pressed
         if (flyon){
-            flyleft.setPower(-1);
-            flyright.setPower(1);
+            flyleft.setPower(-K_FLYWHEEL_SPEED);
+            flyright.setPower(K_FLYWHEEL_SPEED);
         }
         else{
             flyleft.setPower(0.00);

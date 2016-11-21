@@ -50,7 +50,7 @@ public class BlueAuto extends GatorBase {
                 }
                 break;
             case -1:
-                if (navx_turn(0.2, 47)) {
+                if (navx_turn(0.15, 50)) {
                     rd.arcadeDrive(0, 0);
                     reset_encoders();
                     auto_case++;
@@ -72,11 +72,12 @@ public class BlueAuto extends GatorBase {
             case 2:
                 if (navx_turn(0.2, 0)) {
                     rd.arcadeDrive(0, 0);
+                    spool_start = getRuntime();
                     auto_case++;
                 }
                 break;
             case 3:
-                if (ultraRight.getUltrasonicLevel() > 6) {
+                if (ultraRight.getUltrasonicLevel() > 6 || getRuntime() > spool_start + 3) {
                     rd.mecanumDrive_Cartesian(-0.5, 0, navx.getYaw() * 0.05, 0);
                 } else {
                     rd.arcadeDrive(0, 0);
@@ -151,7 +152,7 @@ public class BlueAuto extends GatorBase {
                 }
                 break;
             case 13:
-                if (navx_turn(0.3, -135)) {
+                if (navx_turn(0.3, -137)) {
                     rd.arcadeDrive(0, 0);
                     reset_yaw();
                     reset_encoders();
@@ -166,14 +167,14 @@ public class BlueAuto extends GatorBase {
                 }
                 break;
             case 15:
-                if (have_encoders_reached(K_ONE_INCH * 45)) {
+                if (have_encoders_reached(K_ONE_INCH * 27)) {
                     rd.arcadeDrive(0, 0);
                     auto_case++;
                 }
                 break;
             case 16:
-                flyright.setPower(1);
-                flyleft.setPower(-1);
+                flyright.setPower(K_FLYWHEEL_SPEED);
+                flyleft.setPower(-K_FLYWHEEL_SPEED);
                 spool_start = getRuntime();
                 auto_case++;
                 break;
@@ -228,12 +229,12 @@ public class BlueAuto extends GatorBase {
 //                double error = navx.getYaw() * 0.005;
 //                double error = (get_fr_enc() - get_fl_enc()) * 0.001;
                 double error = (6 - ultraRight.getUltrasonicLevel()) * 0.1;
-                error = Range.clip(error, -0.2, 0.2);
+                error = Range.clip(error, -0.15, 0.15);
                 telemetry.addData("3 Error: ", error);
 //                double lefts = error < 0 ? 0.06 - error : 0.06;
 //                double rights = error > 0 ? 0.06 + error : 0.06;
 //                rd.tankDrive(-rights, -lefts);
-                rd.arcadeDrive(0.3, -error);
+                rd.arcadeDrive(0.2, -error);
 //                rd.mecanumDrive_Cartesian(0, 0.05, 0, get_fl_enc() - get_fr_enc());
                 if (light.getLightDetected() > K_WHITE_LIGHT) {
                     beacon_case++;
